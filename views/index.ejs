@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Chat UI</title>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
+  <link rel="shortcut icon" href="https://i.imgur.com/O7Q6F8M.png" type="image/x-icon">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Roboto', sans-serif;
+      background: #dbdad9;
+    }
+
+    .chat-container {
+      max-width: 800px;
+      margin: 40px auto;
+      background: #fff;
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow: 0 4px 25px rgba(0, 0, 0, 0.15);
+    }
+
+    .chat-header {
+      background-color: #075e54;
+      color: #fff;
+      padding: 16px;
+      font-size: 1.4rem;
+      font-weight: bold;
+    }
+
+    .chat-body {
+      height: 500px;
+      overflow-y: auto;
+      padding: 20px;
+      background-image: url('https://i.imgur.com/O7Q6F8M.png'); 
+      background-size: cover;
+      background-position: center;
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+    }
+
+    .message {
+      max-width: 70%;
+      padding: 12px 16px;
+      border-radius: 10px;
+      position: relative;
+      font-size: 0.95rem;
+      line-height: 1.4;
+      word-wrap: break-word;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    }
+
+    .from-me {
+      align-self: flex-end;
+      background-color: #dcf8c6;
+      border-bottom-right-radius: 0;
+    }
+
+    .from-other {
+      align-self: flex-start;
+      background-color: #fff;
+      border-bottom-left-radius: 0;
+    }
+
+    .meta {
+      font-size: 0.75rem;
+      color: #666;
+      margin-top: 5px;
+      text-align: right;
+    }
+
+    @media screen and (max-width: 600px) {
+      .chat-container {
+        margin: 0;
+        height: 100vh;
+        border-radius: 0;
+      }
+
+      .chat-body {
+        height: calc(100vh - 70px);
+        padding: 10px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="chat-container">
+    <div class="chat-header" style="display: flex; justify-content: space-between; align-items: center;">
+      <div>
+        Chat with Friends 💬
+      </div>
+      <div>
+        <a style="text-decoration: none; background-color: black;color: white; padding: 5px; border-radius: 10px;" href="/chats/new">Chat us</a>
+      </div>
+    </div>
+    <div class="chat-body">
+      <% for(let chat of chats) { %>
+        <div class="message <%= chat.from === 'me' ? 'from-me' : 'from-other' %>">
+          <strong><%= chat.from === 'me' ? 'You' : chat.from %>:</strong><br>
+          <%= chat.msg %>
+          <div class="meta">
+            <strong><%= chat.to ? 'To: ' + chat.to : '' %></strong>
+          </div>
+          <div class="meta"><%= new Date(chat.created_at).toLocaleString() %></div>
+          <br>
+          <hr>
+            <div style="display: flex; flex-wrap: wrap; gap: 8px; justify-content: space-between; align-items: center;">
+            <a style="text-decoration: none; font-size: 13px; word-break: break-all;" href="/chats/<%=chat._id%>/edit">Edit Message</a>
+            <a style="text-decoration: none; color: red; font-size: 13px; word-break: break-all;" href="/chats/delete/<%=chat._id%>">Delete Chat</a>
+            </div>
+            <style>
+            @media (max-width: 600px) {
+              .message div[style*="display: flex"] a {
+              font-size: 12px !important;
+              padding: 2px 0;
+              }
+              .message div[style*="display: flex"] {
+              flex-direction: column;
+              align-items: flex-start;
+              gap: 2px;
+              }
+            }
+            </style>
+        </div>
+      <% } %>
+    </div>
+  </div>
+
+</body>
+</html>
+  
